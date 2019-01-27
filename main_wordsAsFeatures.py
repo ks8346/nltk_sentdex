@@ -45,7 +45,6 @@ documents=[(list(movie_reviews.words(fileid)), category)
 # for category in movie_reviews.categories():
 # 	for fileid in movie_reviews.fileids(category):
 # 		documents.append(list(movie_reviews.words(fileid)))		
-
 # random.shuffle(documents)
 
 #print(documents[1])
@@ -66,8 +65,13 @@ def find_features(document):
 		
 #print((find_features(movie_reviews.words("neg/cv000_29416.txt"))))
 featuresets=[(find_features(rev),category) for (rev,category) in documents]
+#positive
 training_set=featuresets[:1900]
 testing_set=featuresets[1900:]
+
+#negative
+training_set=featuresets[100:]
+testing_set=featuresets[:100]
 #classifier=nltk.NaiveBayesClassifier.train(training_set)
 
 classifier_f=open("naivebayes.pickle","rb")
@@ -87,23 +91,23 @@ print("MNB Naive Bayes algo accuracy:",(nltk.classify.accuracy(MNB_classifier,te
 
 LR_classifier=SklearnClassifier(LogisticRegression())
 LR_classifier.train(training_set)
-print("LR Naive Bayes algo accuracy:",(nltk.classify.accuracy(LR_classifier,testing_set))*100)
+print("LR accuracy:",(nltk.classify.accuracy(LR_classifier,testing_set))*100)
 
 SGD_classifier=SklearnClassifier(SGDClassifier())
 SGD_classifier.train(training_set)
-print("SGD Naive Bayes algo accuracy:",(nltk.classify.accuracy(SGD_classifier,testing_set))*100)
+print("SGD accuracy:",(nltk.classify.accuracy(SGD_classifier,testing_set))*100)
 
 SVC_classifier=SklearnClassifier(SVC())
 SVC_classifier.train(training_set)
-print("SVC Naive Bayes algo accuracy:",(nltk.classify.accuracy(SVC_classifier,testing_set))*100)
+print("SVC accuracy:",(nltk.classify.accuracy(SVC_classifier,testing_set))*100)
 
 LSVC_classifier=SklearnClassifier(LinearSVC())
 LSVC_classifier.train(training_set)
-print("LSVC Naive Bayes algo accuracy:",(nltk.classify.accuracy(LSVC_classifier,testing_set))*100)
+print("LSVC accuracy:",(nltk.classify.accuracy(LSVC_classifier,testing_set))*100)
 
 NSVC_classifier=SklearnClassifier(NuSVC())
 NSVC_classifier.train(training_set)
-print("NSVC Naive Bayes algo accuracy:",(nltk.classify.accuracy(NSVC_classifier,testing_set))*100)
+print("NSVC accuracy:",(nltk.classify.accuracy(NSVC_classifier,testing_set))*100)
 
 B_classifier=SklearnClassifier(BernoulliNB())
 B_classifier.train(training_set)
